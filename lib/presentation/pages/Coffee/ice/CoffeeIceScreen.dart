@@ -1,49 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:technical_test/domain/CoffeeUseCase.dart';
 import 'package:technical_test/domain/model/CoffeeDomainModel.dart';
 import 'package:technical_test/presentation/navigations/RoutePage.dart';
-import 'package:technical_test/presentation/pages/Coffee/ice/CoffeeIceController.dart';
+import 'package:technical_test/presentation/pages/Coffee/globalBloc/coffee_bloc.dart';
 import 'package:technical_test/presentation/themes/Colors.dart';
 import 'package:technical_test/presentation/widgets/CoffeeCard.dart';
 import 'package:technical_test/utils/RequestState.dart';
 
-class CoffeeIceScreen extends ConsumerStatefulWidget {
+import '../../../../di/Injection.dart';
+
+class CoffeeIceScreen extends StatelessWidget {
   const CoffeeIceScreen({super.key});
 
   @override
-  ConsumerState<CoffeeIceScreen> createState() => _CoffeeIceScreenState();
-}
-
-class _CoffeeIceScreenState extends ConsumerState<CoffeeIceScreen> {
-  @override
   Widget build(BuildContext context) {
-    final state = ref.watch(
-      coffeeControllerProvider.select((s) => s.dataCoffeeState),
-    );
-    final controller = ref.read(coffeeControllerProvider.notifier);
+    return BlocProvider(
+      create: (context) => CoffeeBloc(sl<CoffeeUseCase>(), false),
+      child: BlocBuilder<CoffeeBloc, CoffeeState>(
+        builder: (context, state) {
+          final bloc = context.read<CoffeeBloc>();
 
-    return Container(
-      color: CustomColors.lightGrey,
-      padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                controller.fetchAllCoffee();
-              },
-              child: _buildBody(state, controller),
+          return Container(
+            color: CustomColors.lightGrey,
+            padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<CoffeeBloc>().add(FetchCoffeeIce());
+                    },
+                    child: _buildBody(context, state.coffeeState, bloc),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 
   Widget _buildBody(
+    BuildContext context,
     RequestState<List<CoffeeDomainModel>> state,
-    CoffeeIceController controller,
+    CoffeeBloc bloc,
   ) {
     return state.when(
       idle: () => const Center(child: Text("Please Swipe down to refresh")),
@@ -54,7 +57,7 @@ class _CoffeeIceScreenState extends ConsumerState<CoffeeIceScreen> {
         }
 
         return GridView.builder(
-          controller: controller.scrollC,
+          controller: bloc.scrollController,
           padding: const EdgeInsets.only(bottom: 12),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -84,7 +87,7 @@ class _CoffeeIceScreenState extends ConsumerState<CoffeeIceScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(child: Text("Coffee Ice Not Found Please refresh")),
-              SizedBox(height: 8,),
+              SizedBox(height: 8),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.blue,
@@ -94,7 +97,7 @@ class _CoffeeIceScreenState extends ConsumerState<CoffeeIceScreen> {
                   ),
                 ),
                 onPressed: () {
-                  controller.fetchAllCoffee();
+                  context.read<CoffeeBloc>().add(FetchCoffeeIce());
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),

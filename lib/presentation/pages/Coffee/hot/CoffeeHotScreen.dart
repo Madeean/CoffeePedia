@@ -1,50 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:technical_test/domain/CoffeeUseCase.dart';
 import 'package:technical_test/domain/model/CoffeeDomainModel.dart';
 import 'package:technical_test/presentation/navigations/RoutePage.dart';
 import 'package:technical_test/presentation/themes/Colors.dart';
 import 'package:technical_test/presentation/widgets/CoffeeCard.dart';
 import 'package:technical_test/utils/RequestState.dart';
 
-import 'CoffeeHotController.dart';
+import '../../../../di/Injection.dart';
+import '../globalBloc/coffee_bloc.dart';
 
-class CoffeeHotScreen extends ConsumerStatefulWidget {
+class CoffeeHotScreen extends StatelessWidget {
   const CoffeeHotScreen({super.key});
 
   @override
-  ConsumerState<CoffeeHotScreen> createState() => _CoffeeHotScreenState();
-}
-
-class _CoffeeHotScreenState extends ConsumerState<CoffeeHotScreen> {
-  @override
   Widget build(BuildContext context) {
-    final state = ref.watch(
-      coffeeControllerProvider.select((s) => s.dataCoffeeHotState),
-    );
-    final controller = ref.read(coffeeControllerProvider.notifier);
+    return BlocProvider(
+      create: (context) => CoffeeBloc(sl<CoffeeUseCase>(),true),
+      child: BlocBuilder<CoffeeBloc, CoffeeState>(
+        builder: (context, state) {
+          final bloc = context.read<CoffeeBloc>();
 
-    return Container(
-      color: CustomColors.lightGrey,
-      padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                controller.fetchAllCoffeeHot();
-              },
-              child: _buildBody(state, controller),
+          return Container(
+            color: CustomColors.lightGrey,
+            padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<CoffeeBloc>().add(FetchCoffeeHot());
+                    },
+                    child: _buildBody(context, state.coffeeState, bloc),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 
   Widget _buildBody(
+    BuildContext context,
     RequestState<List<CoffeeDomainModel>> state,
-    CoffeeHotController controller,
+    CoffeeBloc bloc,
   ) {
     return state.when(
       idle: () => const Center(child: Text("Please Swipe down to refresh")),
@@ -55,7 +57,7 @@ class _CoffeeHotScreenState extends ConsumerState<CoffeeHotScreen> {
         }
 
         return GridView.builder(
-          controller: controller.scrollC,
+          controller: bloc.scrollController,
           padding: const EdgeInsets.only(bottom: 12),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -81,36 +83,36 @@ class _CoffeeHotScreenState extends ConsumerState<CoffeeHotScreen> {
       },
       error:
           (msg) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(child: Text("Coffee Hot Not Found Please refresh")),
-          SizedBox(height: 8,),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: CustomColors.blue,
-              padding: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            onPressed: () {
-              controller.fetchAllCoffeeHot();
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-              child: Text(
-                "Refresh",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: CustomColors.white,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(child: Text("Coffee Hot Not Found Please refresh")),
+              SizedBox(height: 8),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: CustomColors.blue,
+                  padding: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  context.read<CoffeeBloc>().add(FetchCoffeeHot());
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  child: Text(
+                    "Refresh",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: CustomColors.white,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
     );
   }
 }
