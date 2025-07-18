@@ -10,19 +10,28 @@ part of 'coffee_bloc.dart';
 // }
 
 class CoffeeState {
-  final RequestState<List<CoffeeDomainModel>> coffeeState;
+  final RequestState<List<CoffeeDomainModel>> coffeeHotState;
+  final RequestState<List<CoffeeDomainModel>> coffeeIceState;
 
-  const CoffeeState({required this.coffeeState});
+  const CoffeeState({
+    required this.coffeeHotState,
+    required this.coffeeIceState,
+  });
 
   factory CoffeeState.initial() {
-    return const CoffeeState(coffeeState: RequestState.idle());
+    return const CoffeeState(
+      coffeeHotState: RequestState.idle(),
+      coffeeIceState: RequestState.idle(),
+    );
   }
 
   CoffeeState copyWith({
-    RequestState<List<CoffeeDomainModel>>? coffeeState,
+    RequestState<List<CoffeeDomainModel>>? coffeeHotState,
+    RequestState<List<CoffeeDomainModel>>? coffeeIceState,
   }) {
     return CoffeeState(
-      coffeeState: coffeeState ?? this.coffeeState,
+      coffeeHotState: coffeeHotState ?? this.coffeeHotState,
+      coffeeIceState: coffeeIceState ?? this.coffeeIceState,
     );
   }
 }

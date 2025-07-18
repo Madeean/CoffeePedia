@@ -22,16 +22,20 @@ class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
   void initState() {
     super.initState();
     bloc = context.read<CoffeeBloc>();
-    bloc.add(FetchCoffeeHot());
+    if (bloc.state.coffeeHotState.isIdle) {
+      bloc.add(FetchCoffeeHot());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<CoffeeBloc>();
+
     return BlocBuilder<CoffeeBloc, CoffeeState>(
       builder: (context, state) {
         return Container(
           color: CustomColors.lightGrey,
-          padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
+          padding: const EdgeInsets.only(right: 16, left: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -40,7 +44,7 @@ class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
                   onRefresh: () async {
                     bloc.add(FetchCoffeeHot());
                   },
-                  child: _buildBody(context, state.coffeeState, bloc),
+                  child: _buildBody(context, state.coffeeHotState, bloc),
                 ),
               ),
             ],
@@ -65,7 +69,7 @@ class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
 
         return GridView.builder(
           controller: bloc.scrollController,
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.only(bottom: 12, top: 12),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 10,

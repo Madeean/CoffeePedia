@@ -21,15 +21,15 @@ class _CoffeeIceScreenState extends State<CoffeeIceScreen> {
   void initState() {
     super.initState();
     bloc = context.read<CoffeeBloc>();
-    bloc.add(FetchCoffeeIce());
+    if (bloc.state.coffeeIceState.isIdle) {
+      bloc.add(FetchCoffeeIce());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CoffeeBloc, CoffeeState>(
       builder: (context, state) {
-        final bloc = context.read<CoffeeBloc>();
-
         return Container(
           color: CustomColors.lightGrey,
           padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
@@ -41,7 +41,7 @@ class _CoffeeIceScreenState extends State<CoffeeIceScreen> {
                   onRefresh: () async {
                     bloc.add(FetchCoffeeIce());
                   },
-                  child: _buildBody(context, state.coffeeState, bloc),
+                  child: _buildBody(context, state.coffeeIceState, bloc),
                 ),
               ),
             ],

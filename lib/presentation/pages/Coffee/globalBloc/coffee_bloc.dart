@@ -21,22 +21,22 @@ class CoffeeBloc extends Bloc<CoffeeEvent, CoffeeState> {
     FetchCoffeeHot event,
     Emitter<CoffeeState> emit,
   ) async {
-    emit(state.copyWith(coffeeState: RequestState.loading()));
+    emit(state.copyWith(coffeeHotState: RequestState.loading()));
 
     final result = await useCase.getAllCoffeeHot();
 
-    emit(state.copyWith(coffeeState: result));
+    emit(state.copyWith(coffeeHotState: result));
   }
 
   Future<void> _onFetchCoffeeIce(
     FetchCoffeeIce event,
     Emitter<CoffeeState> emit,
   ) async {
-    emit(state.copyWith(coffeeState: RequestState.loading()));
+    emit(state.copyWith(coffeeIceState: RequestState.loading()));
 
     final result = await useCase.getAllCoffeeIce();
 
-    emit(state.copyWith(coffeeState: result));
+    emit(state.copyWith(coffeeIceState: result));
   }
 
   @override
