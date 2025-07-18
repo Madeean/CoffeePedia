@@ -1,45 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:technical_test/domain/CoffeeUseCase.dart';
 import 'package:technical_test/domain/model/CoffeeDomainModel.dart';
 import 'package:technical_test/presentation/navigations/RoutePage.dart';
 import 'package:technical_test/presentation/themes/Colors.dart';
 import 'package:technical_test/presentation/widgets/CoffeeCard.dart';
 import 'package:technical_test/utils/RequestState.dart';
 
-import '../../../../di/Injection.dart';
 import '../globalBloc/coffee_bloc.dart';
 
-class CoffeeHotScreen extends StatelessWidget {
+class CoffeeHotScreen extends StatefulWidget {
   const CoffeeHotScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CoffeeBloc(sl<CoffeeUseCase>(),true),
-      child: BlocBuilder<CoffeeBloc, CoffeeState>(
-        builder: (context, state) {
-          final bloc = context.read<CoffeeBloc>();
+  State<CoffeeHotScreen> createState() => _CoffeeHotScreenState();
+}
 
-          return Container(
-            color: CustomColors.lightGrey,
-            padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      context.read<CoffeeBloc>().add(FetchCoffeeHot());
-                    },
-                    child: _buildBody(context, state.coffeeState, bloc),
-                  ),
+class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
+  late CoffeeBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = context.read<CoffeeBloc>();
+    bloc.add(FetchCoffeeHot());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CoffeeBloc, CoffeeState>(
+      builder: (context, state) {
+        return Container(
+          color: CustomColors.lightGrey,
+          padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    bloc.add(FetchCoffeeHot());
+                  },
+                  child: _buildBody(context, state.coffeeState, bloc),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -97,7 +104,7 @@ class CoffeeHotScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  context.read<CoffeeBloc>().add(FetchCoffeeHot());
+                  bloc.add(FetchCoffeeHot());
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),

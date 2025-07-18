@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:technical_test/domain/CoffeeUseCase.dart';
 import 'package:technical_test/domain/model/CoffeeDomainModel.dart';
 import 'package:technical_test/presentation/navigations/RoutePage.dart';
 import 'package:technical_test/presentation/pages/Coffee/globalBloc/coffee_bloc.dart';
@@ -8,38 +7,47 @@ import 'package:technical_test/presentation/themes/Colors.dart';
 import 'package:technical_test/presentation/widgets/CoffeeCard.dart';
 import 'package:technical_test/utils/RequestState.dart';
 
-import '../../../../di/Injection.dart';
-
-class CoffeeIceScreen extends StatelessWidget {
+class CoffeeIceScreen extends StatefulWidget {
   const CoffeeIceScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CoffeeBloc(sl<CoffeeUseCase>(), false),
-      child: BlocBuilder<CoffeeBloc, CoffeeState>(
-        builder: (context, state) {
-          final bloc = context.read<CoffeeBloc>();
+  State<CoffeeIceScreen> createState() => _CoffeeIceScreenState();
+}
 
-          return Container(
-            color: CustomColors.lightGrey,
-            padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      context.read<CoffeeBloc>().add(FetchCoffeeIce());
-                    },
-                    child: _buildBody(context, state.coffeeState, bloc),
-                  ),
+class _CoffeeIceScreenState extends State<CoffeeIceScreen> {
+  late CoffeeBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = context.read<CoffeeBloc>();
+    bloc.add(FetchCoffeeIce());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CoffeeBloc, CoffeeState>(
+      builder: (context, state) {
+        final bloc = context.read<CoffeeBloc>();
+
+        return Container(
+          color: CustomColors.lightGrey,
+          padding: const EdgeInsets.only(right: 16, left: 16, top: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    bloc.add(FetchCoffeeIce());
+                  },
+                  child: _buildBody(context, state.coffeeState, bloc),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -97,7 +105,7 @@ class CoffeeIceScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  context.read<CoffeeBloc>().add(FetchCoffeeIce());
+                  bloc.add(FetchCoffeeIce());
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),

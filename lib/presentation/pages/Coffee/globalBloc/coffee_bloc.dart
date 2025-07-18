@@ -10,21 +10,11 @@ part 'coffee_state.dart';
 
 class CoffeeBloc extends Bloc<CoffeeEvent, CoffeeState> {
   final CoffeeUseCase useCase;
-  final bool isCoffeeHot;
   final ScrollController scrollController = ScrollController();
 
-  CoffeeBloc(this.useCase, this.isCoffeeHot) : super(CoffeeState.initial()) {
-    // on<CoffeeEvent>((event, emit) {
-    //   // TODO: implement event handler
-    // });
+  CoffeeBloc(this.useCase) : super(CoffeeState.initial()) {
     on<FetchCoffeeHot>(_onFetchCoffeeHot);
     on<FetchCoffeeIce>(_onFetchCoffeeIce);
-
-    if (isCoffeeHot) {
-      add(FetchCoffeeHot());
-    } else {
-      add(FetchCoffeeIce());
-    }
   }
 
   Future<void> _onFetchCoffeeHot(
