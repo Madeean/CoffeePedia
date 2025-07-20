@@ -1,9 +1,9 @@
 import 'package:technical_test/data/network/Network.dart';
 import 'package:technical_test/data/utils/DataUtils.dart';
-import 'package:technical_test/domain/model/CoffeeDomainModel.dart';
+import 'package:technical_test/domain/coffee/model/CoffeeDomainModel.dart';
 import 'package:technical_test/utils/RequestState.dart';
 
-import '../../domain/CoffeeRepository.dart';
+import '../../domain/coffee/CoffeeRepository.dart';
 
 class CoffeeRepositoryImpl implements CoffeeRepository {
   final Network network;

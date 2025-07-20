@@ -1,6 +1,6 @@
-import 'package:technical_test/domain/CoffeeRepository.dart';
-import 'package:technical_test/domain/CoffeeUseCase.dart';
-import 'package:technical_test/domain/model/CoffeeDomainModel.dart';
+import 'package:technical_test/domain/coffee/CoffeeRepository.dart';
+import 'package:technical_test/domain/coffee/CoffeeUseCase.dart';
+import 'package:technical_test/domain/coffee/model/CoffeeDomainModel.dart';
 import 'package:technical_test/utils/RequestState.dart';
 
 class CoffeeUseCaseImpl implements CoffeeUseCase {

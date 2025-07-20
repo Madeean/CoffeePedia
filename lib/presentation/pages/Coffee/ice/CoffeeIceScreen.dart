@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:technical_test/domain/model/CoffeeDomainModel.dart';
+import 'package:technical_test/domain/coffee/model/CoffeeDomainModel.dart';
 import 'package:technical_test/presentation/navigations/RoutePage.dart';
 import 'package:technical_test/presentation/pages/Coffee/globalBloc/coffee_bloc.dart';
 import 'package:technical_test/presentation/themes/Colors.dart';

@@ -1,37 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:technical_test/domain/coffee/model/CoffeeDomainModel.dart';
+import 'package:technical_test/domain/favorite/model/FavoriteDomainModel.dart';
 import 'package:technical_test/presentation/navigations/RoutePage.dart';
-import 'package:technical_test/presentation/themes/Colors.dart';
+import 'package:technical_test/presentation/pages/favorite/favoriteBloc/favorite_bloc.dart';
 import 'package:technical_test/presentation/widgets/CoffeeCard.dart';
 import 'package:technical_test/utils/RequestState.dart';
 
-import '../globalBloc/coffee_bloc.dart';
+import '../../themes/Colors.dart';
 
-class CoffeeHotScreen extends StatefulWidget {
-  const CoffeeHotScreen({super.key});
+class FavoriteScreen extends StatefulWidget {
+  const FavoriteScreen({super.key});
 
   @override
-  State<CoffeeHotScreen> createState() => _CoffeeHotScreenState();
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
-class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
-  late CoffeeBloc bloc;
+class _FavoriteScreenState extends State<FavoriteScreen> {
+  late FavoriteBloc bloc;
 
   @override
   void initState() {
     super.initState();
-    bloc = context.read<CoffeeBloc>();
-    if (bloc.state.coffeeHotState.isIdle) {
-      bloc.add(FetchCoffeeHot());
-    }
+    bloc = context.read<FavoriteBloc>();
+    bloc.add(GetListFavorite());
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<CoffeeBloc>();
-
-    return BlocBuilder<CoffeeBloc, CoffeeState>(
+    return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (context, state) {
         return Container(
           color: CustomColors.lightGrey,
@@ -41,10 +37,8 @@ class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
             children: [
               Expanded(
                 child: RefreshIndicator(
-                  onRefresh: () async {
-                    bloc.add(FetchCoffeeHot());
-                  },
-                  child: _buildBody(context, state.coffeeHotState, bloc),
+                  onRefresh: () async {},
+                  child: _buildBody(context, state.favoriteState, bloc),
                 ),
               ),
             ],
@@ -56,15 +50,15 @@ class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
 
   Widget _buildBody(
     BuildContext context,
-    RequestState<List<CoffeeDomainModel>> state,
-    CoffeeBloc bloc,
+    RequestState<List<FavoriteDomainModel>> state,
+    FavoriteBloc bloc,
   ) {
     return state.when(
-      idle: () => const Center(child: Text("Please Swipe down to refresh")),
+      idle: () => const Center(child: Text("Favorite is empty")),
       loading: () => const Center(child: CircularProgressIndicator()),
       success: (data) {
         if (data.isEmpty) {
-          return const Center(child: Text("Coffee Hot Not Found"));
+          return const Center(child: Text("Favorite is empty"));
         }
 
         return GridView.builder(
@@ -78,7 +72,7 @@ class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
           ),
           itemCount: data.length,
           itemBuilder: (context, index) {
-            final coffee = data[index];
+            final coffee = data[index].toCoffee();
             return CoffeeCard(
               coffee: coffee,
               navigation: () {
@@ -97,7 +91,7 @@ class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(child: Text("Coffee Hot Not Found Please refresh")),
+              Center(child: Text("Favorite error")),
               SizedBox(height: 8),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -108,7 +102,7 @@ class _CoffeeHotScreenState extends State<CoffeeHotScreen> {
                   ),
                 ),
                 onPressed: () {
-                  bloc.add(FetchCoffeeHot());
+                  bloc.add(GetListFavorite());
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),

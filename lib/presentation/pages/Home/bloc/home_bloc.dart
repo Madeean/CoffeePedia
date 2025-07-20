@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:technical_test/presentation/pages/favorite/FavoriteScreen.dart';
 
 import '../../Coffee/hot/CoffeeHotScreen.dart';
 import '../../Coffee/ice/CoffeeIceScreen.dart';
@@ -27,6 +28,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       appBarText: "Coffee Ice",
       icon: Icons.person,
       label: 'Ice',
+    ),
+    const BottomNavBarItemModel(
+      screen: FavoriteScreen(),
+      appBarText: "Favorite Coffee",
+      icon: Icons.favorite,
+      label: 'Favorite',
     ),
   ];
 

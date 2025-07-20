@@ -1,6 +1,6 @@
 import 'package:technical_test/data/network/Network.dart';
 import 'package:technical_test/data/repository/model/CoffeeResponse.dart';
-import 'package:technical_test/domain/model/CoffeeDomainModel.dart';
+import 'package:technical_test/domain/coffee/model/CoffeeDomainModel.dart';
 import 'package:technical_test/utils/RequestState.dart';
 
 Future<RequestState<List<CoffeeDomainModel>>> getCoffeeList(String endpoint, Network network) async {

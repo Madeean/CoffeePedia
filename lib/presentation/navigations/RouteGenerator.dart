@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:technical_test/domain/model/CoffeeDomainModel.dart';
+import 'package:technical_test/domain/coffee/model/CoffeeDomainModel.dart';
 import 'package:technical_test/presentation/pages/Coffee/detail/CoffeeDetailScreen.dart';
 import 'package:technical_test/presentation/pages/Home/HomeScreen.dart';
 import 'package:technical_test/presentation/pages/Splash/SplashScreen.dart';

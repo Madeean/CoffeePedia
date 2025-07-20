@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:technical_test/domain/coffee/CoffeeUseCase.dart';
+import 'package:technical_test/domain/coffee/model/CoffeeDomainModel.dart';
 
-import '../../../../domain/CoffeeUseCase.dart';
-import '../../../../domain/model/CoffeeDomainModel.dart';
 import '../../../../utils/RequestState.dart';
 
 part 'coffee_event.dart';

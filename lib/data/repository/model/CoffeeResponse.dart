@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../domain/model/CoffeeDomainModel.dart';
+import 'package:technical_test/domain/coffee/model/CoffeeDomainModel.dart';
 
 part 'CoffeeResponse.freezed.dart';
 

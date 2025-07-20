@@ -16,26 +16,26 @@ final _privateConstructorUsedError = UnsupportedError(
 );
 
 /// @nodoc
-mixin _$CoffeeHotDomainModel {
+mixin _$CoffeeDomainModel {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   List<String> get ingredients => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
 
-  /// Create a copy of CoffeeHotDomainModel
+  /// Create a copy of CoffeeDomainModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CoffeeHotDomainModelCopyWith<CoffeeDomainModel> get copyWith =>
+  $CoffeeDomainModelCopyWith<CoffeeDomainModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CoffeeHotDomainModelCopyWith<$Res> {
-  factory $CoffeeHotDomainModelCopyWith(
+abstract class $CoffeeDomainModelCopyWith<$Res> {
+  factory $CoffeeDomainModelCopyWith(
     CoffeeDomainModel value,
     $Res Function(CoffeeDomainModel) then,
-  ) = _$CoffeeHotDomainModelCopyWithImpl<$Res, CoffeeDomainModel>;
+  ) = _$CoffeeDomainModelCopyWithImpl<$Res, CoffeeDomainModel>;
   @useResult
   $Res call({
     String title,
@@ -47,19 +47,16 @@ abstract class $CoffeeHotDomainModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CoffeeHotDomainModelCopyWithImpl<
-  $Res,
-  $Val extends CoffeeDomainModel
->
-    implements $CoffeeHotDomainModelCopyWith<$Res> {
-  _$CoffeeHotDomainModelCopyWithImpl(this._value, this._then);
+class _$CoffeeDomainModelCopyWithImpl<$Res, $Val extends CoffeeDomainModel>
+    implements $CoffeeDomainModelCopyWith<$Res> {
+  _$CoffeeDomainModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CoffeeHotDomainModel
+  /// Create a copy of CoffeeDomainModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -105,7 +102,7 @@ class _$CoffeeHotDomainModelCopyWithImpl<
 
 /// @nodoc
 abstract class _$$CoffeeHotDomainModelImplCopyWith<$Res>
-    implements $CoffeeHotDomainModelCopyWith<$Res> {
+    implements $CoffeeDomainModelCopyWith<$Res> {
   factory _$$CoffeeHotDomainModelImplCopyWith(
     _$CoffeeHotDomainModelImpl value,
     $Res Function(_$CoffeeHotDomainModelImpl) then,
@@ -123,14 +120,14 @@ abstract class _$$CoffeeHotDomainModelImplCopyWith<$Res>
 
 /// @nodoc
 class __$$CoffeeHotDomainModelImplCopyWithImpl<$Res>
-    extends _$CoffeeHotDomainModelCopyWithImpl<$Res, _$CoffeeHotDomainModelImpl>
+    extends _$CoffeeDomainModelCopyWithImpl<$Res, _$CoffeeHotDomainModelImpl>
     implements _$$CoffeeHotDomainModelImplCopyWith<$Res> {
   __$$CoffeeHotDomainModelImplCopyWithImpl(
     _$CoffeeHotDomainModelImpl _value,
     $Res Function(_$CoffeeHotDomainModelImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of CoffeeHotDomainModel
+  /// Create a copy of CoffeeDomainModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -203,7 +200,7 @@ class _$CoffeeHotDomainModelImpl implements _CoffeeHotDomainModel {
 
   @override
   String toString() {
-    return 'CoffeeHotDomainModel(title: $title, description: $description, ingredients: $ingredients, image: $image, id: $id)';
+    return 'CoffeeDomainModel(title: $title, description: $description, ingredients: $ingredients, image: $image, id: $id)';
   }
 
   @override
@@ -232,7 +229,7 @@ class _$CoffeeHotDomainModelImpl implements _CoffeeHotDomainModel {
     id,
   );
 
-  /// Create a copy of CoffeeHotDomainModel
+  /// Create a copy of CoffeeDomainModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -265,7 +262,7 @@ abstract class _CoffeeHotDomainModel implements CoffeeDomainModel {
   @override
   int get id;
 
-  /// Create a copy of CoffeeHotDomainModel
+  /// Create a copy of CoffeeDomainModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)

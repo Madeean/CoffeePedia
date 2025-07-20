@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'CoffeeDomainModel.freezed.dart';
 
 @freezed
-class CoffeeDomainModel with _$CoffeeHotDomainModel {
+class CoffeeDomainModel with _$CoffeeDomainModel {
   const factory CoffeeDomainModel({
     required String title,
     required String description,
