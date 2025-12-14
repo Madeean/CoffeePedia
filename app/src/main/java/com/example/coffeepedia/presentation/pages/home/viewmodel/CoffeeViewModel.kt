@@ -18,9 +18,14 @@ class CoffeeViewModel(
 
     private val _hotCoffeeState =
         MutableStateFlow<UiState<List<CoffeeDomainModel>>>(UiState.Idle)
-
     val hotCoffeeState: StateFlow<UiState<List<CoffeeDomainModel>>> =
         _hotCoffeeState.asStateFlow()
+
+    private val _iceCoffeeState =
+        MutableStateFlow<UiState<List<CoffeeDomainModel>>>(UiState.Idle)
+
+    val iceCoffeeState: StateFlow<UiState<List<CoffeeDomainModel>>> =
+        _iceCoffeeState.asStateFlow()
 
     fun getHotCoffee() {
         viewModelScope.launch {
@@ -34,6 +39,22 @@ class CoffeeViewModel(
                 }
                 .collect { data ->
                     _hotCoffeeState.value = UiState.Success(data)
+                }
+        }
+    }
+
+    fun getIceCoffee() {
+        viewModelScope.launch {
+            useCase.getAllIceCoffee()
+                .onStart {
+                    _iceCoffeeState.value = UiState.Loading
+                }
+                .catch { e ->
+                    _iceCoffeeState.value =
+                        UiState.Error(e.message ?: "Failed to load coffee", e)
+                }
+                .collect { data ->
+                    _iceCoffeeState.value = UiState.Success(data)
                 }
         }
     }

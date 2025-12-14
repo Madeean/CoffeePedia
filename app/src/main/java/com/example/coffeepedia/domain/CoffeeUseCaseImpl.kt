@@ -8,4 +8,8 @@ class CoffeeUseCaseImpl(private val repository: CoffeeRepository) : CoffeeUseCas
         return repository.getAllHotCoffee()
     }
 
+    override fun getAllIceCoffee(): Flow<List<CoffeeDomainModel>> {
+        return repository.getAllIceCoffee()
+    }
+
 }

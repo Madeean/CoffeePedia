@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoffeeRepository {
     fun getAllHotCoffee(): Flow<List<CoffeeDomainModel>>
+    fun getAllIceCoffee(): Flow<List<CoffeeDomainModel>>
 }

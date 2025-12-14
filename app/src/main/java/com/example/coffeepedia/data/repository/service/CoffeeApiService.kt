@@ -7,4 +7,7 @@ interface CoffeeApiService {
 
     @GET("coffee/hot")
     suspend fun getAllHotCoffee(): List<CoffeeResponse>
+
+    @GET("coffee/iced")
+    suspend fun getAllIceCoffee(): List<CoffeeResponse>
 }

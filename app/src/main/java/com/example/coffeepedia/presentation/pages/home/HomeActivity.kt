@@ -2,17 +2,11 @@ package com.example.coffeepedia.presentation.pages.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.fragment.app.Fragment
 import com.example.coffeepedia.R
 import com.example.coffeepedia.databinding.ActivityHomeBinding
+import com.example.coffeepedia.presentation.pages.home.fragment.hot.HotFragment
+import com.example.coffeepedia.presentation.pages.home.fragment.ice.IceFragment
 import com.example.coffeepedia.presentation.util.base.BaseActivity
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
@@ -23,27 +17,35 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setSupportActionBar(binding.toolbar)
-
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-                    as NavHostFragment
-
-        val navController = navHostFragment.navController
-
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.hotFragment,
-                R.id.iceFragment
-            )
-        )
-
-        binding.bottomNav.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        setFragment(HotFragment())
+        setAppBar("Hot Coffee")
+        setBottomNavigationView()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp() || super.onSupportNavigateUp()
+    private fun setBottomNavigationView() {
+        binding.bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.hotFragment -> {
+                    setFragment(HotFragment())
+                    setAppBar("Hot Coffee")
+                }
+
+                R.id.iceFragment -> {
+                    setFragment(IceFragment())
+                    setAppBar("Ice Coffee")
+                }
+            }
+            true
+        }
+    }
+
+    private fun setFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(binding.fragmentContainer.id, fragment)
+            .commit()
+    }
+
+    private fun setAppBar(title: String) {
+        binding.toolbar.tvToolbar.text = title
     }
 }

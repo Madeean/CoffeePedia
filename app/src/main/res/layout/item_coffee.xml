@@ -2,19 +2,38 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:layout_gravity="center"
+    android:layout_height="wrap_content"
     android:layout_marginHorizontal="15dp"
     android:layout_marginVertical="10dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="5dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="@drawable/ripple_card"
     app:cardBackgroundColor="@color/white"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:adjustViewBounds="true"
+            android:maxHeight="120dp"
+            android:id="@+id/iv_image"
+            android:contentDescription="iv"
+            android:src="@drawable/qrimage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Space
+            android:id="@+id/space_image"
+            app:layout_constraintTop_toBottomOf="@id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
 
         <TextView
             android:id="@+id/tv_judul"
@@ -27,22 +46,35 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/space_image"/>
+        <Space
+            android:id="@+id/space_judul"
+            app:layout_constraintTop_toBottomOf="@id/tv_judul"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
 
         <TextView
+            android:paddingHorizontal="10dp"
             android:id="@+id/tv_episode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="S01E01"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_judul" />
+            app:layout_constraintTop_toBottomOf="@id/space_judul" />
+        <Space
+            android:id="@+id/space_episode"
+            app:layout_constraintTop_toBottomOf="@id/tv_episode"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
 
         <TextView
+            android:paddingHorizontal="10dp"
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,20 +83,12 @@
             android:maxLines="1"
             android:text="14-11-2002"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_episode"
+            app:layout_constraintTop_toBottomOf="@id/space_episode"
             />
-
-        <ImageView
-            android:id="@+id/iv_image"
-            android:layout_width="80dp"
-            android:minWidth="80dp"
-            android:maxWidth="120dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/qrimage"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <Space
+            android:id="@+id/space_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

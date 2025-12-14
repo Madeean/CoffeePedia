@@ -8,9 +8,11 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.coffeepedia.databinding.FragmentHotBinding
+import com.example.coffeepedia.domain.model.CoffeeDomainModel
 import com.example.coffeepedia.presentation.pages.home.fragment.hot.adapter.CoffeeHotAdapter
+import com.example.coffeepedia.presentation.pages.home.`interface`.CoffeeEvent
 import com.example.coffeepedia.presentation.pages.home.viewmodel.CoffeeViewModel
 import com.example.coffeepedia.presentation.util.UiState
 import com.example.coffeepedia.presentation.util.base.BaseFragment
@@ -19,7 +21,13 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class HotFragment : BaseFragment<FragmentHotBinding>() {
     private val viewModel: CoffeeViewModel by activityViewModel()
-    private val coffeeAdapter by lazy { CoffeeHotAdapter() }
+    private val coffeeAdapter by lazy {
+        CoffeeHotAdapter { event ->
+            when (event) {
+                is CoffeeEvent.Click -> onCoffeeClicked(event.data)
+            }
+        }
+    }
 
     override fun inflateBinding(
         inflater: LayoutInflater, container: ViewGroup?
@@ -45,7 +53,7 @@ class HotFragment : BaseFragment<FragmentHotBinding>() {
 
     private fun setupAdapter() {
         binding.rvCoffeeHot.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = coffeeAdapter
         }
     }
@@ -63,9 +71,7 @@ class HotFragment : BaseFragment<FragmentHotBinding>() {
 
                         is UiState.Success -> {
                             hideLoading()
-                            binding.rvCoffeeHot.post {
-                                coffeeAdapter.submitList(state.data)
-                            }
+                            coffeeAdapter.submitList(state.data)
                         }
 
                         is UiState.Error -> {
@@ -79,5 +85,9 @@ class HotFragment : BaseFragment<FragmentHotBinding>() {
                 }
             }
         }
+    }
+
+    private fun onCoffeeClicked(data: CoffeeDomainModel) {
+        createLog("on click ${data.title}")
     }
 }

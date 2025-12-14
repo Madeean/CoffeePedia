@@ -1,4 +1,4 @@
-package com.example.coffeepedia.presentation.pages.home.fragment.hot.adapter
+package com.example.coffeepedia.presentation.pages.home.fragment.ice.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,13 +9,9 @@ import com.bumptech.glide.Glide
 import com.example.coffeepedia.R
 import com.example.coffeepedia.databinding.ItemCoffeeBinding
 import com.example.coffeepedia.domain.model.CoffeeDomainModel
-import com.example.coffeepedia.presentation.pages.home.`interface`.CoffeeEvent
 
-class CoffeeHotAdapter(
-    private val event: (CoffeeEvent) -> Unit
-) :
-    ListAdapter<CoffeeDomainModel, CoffeeHotAdapter.CoffeeViewHolder>(HotDiffCallback()) {
-
+class CoffeeIceAdapter :
+    ListAdapter<CoffeeDomainModel, CoffeeIceAdapter.CoffeeViewHolder>(HotDiffCallback()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -29,16 +25,11 @@ class CoffeeHotAdapter(
     }
 
     override fun onBindViewHolder(holder: CoffeeViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
-
-        holder.binding.root.setOnClickListener {
-            event(CoffeeEvent.Click(item))
-        }
+        holder.bind(getItem(position))
     }
 
     class CoffeeViewHolder(
-        val binding: ItemCoffeeBinding
+        private val binding: ItemCoffeeBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CoffeeDomainModel) {
             binding.apply {
@@ -53,11 +44,6 @@ class CoffeeHotAdapter(
                     .into(ivImage)
             }
         }
-    }
-
-    override fun onViewRecycled(holder: CoffeeViewHolder) {
-        super.onViewRecycled(holder)
-        Glide.with(holder.itemView.context).clear(holder.binding.ivImage)
     }
 
     private class HotDiffCallback : DiffUtil.ItemCallback<CoffeeDomainModel>() {

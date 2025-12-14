@@ -3,7 +3,7 @@
 
     <!-- Selected -->
     <item
-        android:color="@color/blue"
+        android:color="@color/light_grey"
         android:state_checked="true" />
 
     <!-- Unselected -->
