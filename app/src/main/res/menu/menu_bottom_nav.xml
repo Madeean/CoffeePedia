@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/hotFragment"
+        android:icon="@drawable/baseline_hot_24"
+        android:title="Hot"/>
+
+    <item
+        android:id="@+id/iceFragment"
+        android:icon="@drawable/baseline_cold_24"
+        android:title="Ice"/>
+</menu>

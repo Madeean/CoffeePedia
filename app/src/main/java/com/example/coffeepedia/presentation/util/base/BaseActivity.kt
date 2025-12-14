@@ -1,10 +1,11 @@
-package com.example.coffeepedia
+package com.example.coffeepedia.presentation.util.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.viewbinding.ViewBinding
 import com.example.coffeepedia.databinding.LoadingOverlayBinding
 import timber.log.Timber
@@ -22,12 +23,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Timber.plant(Timber.DebugTree())
 
-
-        // inflate main layout
         _binding = inflateBinding(layoutInflater)
         setContentView(binding.root)
 
-        // inflate overlay loading
         loadingBinding = LoadingOverlayBinding.inflate(layoutInflater)
         addContentView(
             loadingBinding.root,
@@ -38,12 +36,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         )
     }
 
-    // Show loading
     fun showLoading() {
         loadingBinding.root.visibility = View.VISIBLE
     }
 
-    // Hide loading
     fun hideLoading() {
         loadingBinding.root.visibility = View.GONE
     }
@@ -51,5 +47,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun createLog(message: String) {
+        Timber.d(message)
     }
 }
